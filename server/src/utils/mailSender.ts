@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-const mailSender = async (email: string, subject: string, htmlContent: string) => {
+const mailSender = async (email: string, subject: string, htmlContent: string) : Promise<void> => {
     try{
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -12,7 +12,7 @@ const mailSender = async (email: string, subject: string, htmlContent: string) =
             } 
         })
         const mailOptions = {
-            from : `${process.env.EMAIL}`,
+            from : `Skilloria <${process.env.EMAIL}>`,
             to: email,
             subject: subject,
             html: htmlContent
@@ -20,7 +20,6 @@ const mailSender = async (email: string, subject: string, htmlContent: string) =
 
         const info = await transporter.sendMail(mailOptions)
         console.log(info)
-        return info
     } catch (err){
         console.log((err as Error).message)
         throw new Error((err as Error).message)

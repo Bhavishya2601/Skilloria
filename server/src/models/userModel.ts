@@ -5,6 +5,7 @@ interface IUser extends Document {
     name: string;
     email: string;
     password: string;
+    isAdmin?: Boolean;
     courseEnrolled?: string[];
     courseOffered?: string[];
     createdAt?: Date;
@@ -30,6 +31,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     },
     courseEnrolled: {
         type: [String]

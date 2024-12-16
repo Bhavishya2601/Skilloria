@@ -1,5 +1,7 @@
 import {useForm} from 'react-hook-form'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 type FormData = {
     email: string,
@@ -7,13 +9,25 @@ type FormData = {
 }
 
 const Login = () => {
+  const navigate = useNavigate()
     const {
         register,
         handleSubmit    
     } = useForm<FormData>()
 
-    const handleLogin = handleSubmit(({email, password}) => {
-        console.log(email, password)
+    const handleLogin = handleSubmit( async ({email, password}) => {
+        try{
+          const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, {
+            email, password
+          })
+          console.log(response.data)
+          if (response.status === 200){
+            toast.success('Login Successfully')
+            navigate('/courses')
+          }
+        } catch (err){
+          console.log((err as Error).message)
+        }
     })
 
   return (

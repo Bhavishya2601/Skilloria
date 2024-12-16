@@ -9,6 +9,7 @@ import MongoStore from "connect-mongo"
 dotenv.config()
 
 import userRoutes from './routes/userRoute'
+import courseRoutes from './routes/courseRoute'
 
 const port = process.env.PORT
 const app = express()
@@ -60,6 +61,7 @@ app.get('/', (req: Request, res: Response)=>{
 })
 
 app.use('/user', userRoutes)
+app.use('/course', courseRoutes)
 
 const startServer = async () : Promise<void> => {
     await connectToDB()

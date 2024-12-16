@@ -10,7 +10,11 @@ type FormData = {
   confirmPassword: string
 }
 
-const Signup = () => {
+interface SignUpProps {
+  userVerified: string
+}
+
+const Signup : React.FC<SignUpProps> = ({userVerified}) => {
   const {
     register,
     handleSubmit
@@ -22,7 +26,9 @@ const Signup = () => {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, {
         name, email, password
       })
-      console.log(response.data)
+      if (response.status === 200){
+        // pop up for waiting
+      }
     } catch (err){
       console.log((err as Error).message)
       toast.error('Something Went Wrong')
