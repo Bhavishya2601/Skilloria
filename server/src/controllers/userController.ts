@@ -1,10 +1,11 @@
 import { Request, Response } from "express"
+import crypto from "crypto"
+import bcrypt from "bcrypt"
+
 import verificationLinkTemplate from "../mailTemplates/verificationLink"
 import mailSender from "../utils/mailSender"
 import PendingVerification from "../models/PendingVerification"
 import User from "../models/userModel"
-import crypto from "crypto"
-import bcrypt from "bcrypt"
 
 const salt_rounds: string = process.env.SALT_ROUNDS || '10'
 
@@ -119,5 +120,22 @@ export const login = async (req: Request, res: Response) => {
 
     } catch (err){
         console.log((err as Error).message)
+    }
+}
+
+export const checkStatus = async (req: Request, res: Response) => {
+    const {email} = req.body
+    try {
+        const user = await User.findOne({email})
+        if (!user){
+            res.status(202).json({error: 'User not found'})
+            return
+        }
+        res.status(200).json({message: "Authenticated successfully"})
+        return
+    } catch (err){
+        console.log((err as Error).message)
+        res.status(500).json({error: "something went wrong"})
+        return
     }
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import Course from "../components/Course"
 
-const Courses = () => {
+const Courses: React.FC = () => {
   const [courses, setCourses] = useState([])
 
   useEffect(()=>{
@@ -22,6 +22,7 @@ const Courses = () => {
 
   return (
     <div>
+      courses
       {courses.map((course)=>{
         return (
           <div>

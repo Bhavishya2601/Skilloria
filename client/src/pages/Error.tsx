@@ -1,5 +1,5 @@
 
-const Error = () => {
+const Error: React.FC = () => {
   return (
     <div>
       error

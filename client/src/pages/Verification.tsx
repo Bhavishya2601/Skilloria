@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 
-interface VerificationProps {
-  setUserVerified: string
-}
 
-const Verification : React.FC<VerificationProps> = ({setUserVerified}) => {
+const Verification: React.FC = () => {
   const token = useParams()
-  console.log(token)
   const [verified, setVerified] = useState(false)
 
   useEffect(() => {

@@ -54,5 +54,5 @@ const courseSchema = new mongoose.Schema({
     }
 })
 
-const User : Model<ICourse> = mongoose.model<ICourse>("courseModel", courseSchema)
-export default User
+const Course : Model<ICourse> = mongoose.model<ICourse>("Courses", courseSchema)
+export default Course

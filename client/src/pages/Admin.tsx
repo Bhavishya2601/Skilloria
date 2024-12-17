@@ -1,12 +1,9 @@
 // import React from 'react'
 
-const Admin = () => {
+const Admin: React.FC = () => {
   return (
     <div>
       Admin
-      no. of users
-      list of courses with students enrolled in which course
-      pending courses for approval
     </div>
   )
 }
