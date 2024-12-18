@@ -9,9 +9,10 @@ const Signup = lazy(() => import('./pages/Signup'))
 const Login = lazy(() => import('./pages/Login'))
 const Error = lazy(() => import('./pages/Error'))
 const Verification = lazy(() => import('./pages/Verification'))
-const Courses = lazy(() => import('./pages/Courses'))
+const CoursesDashboard = lazy(() => import('./pages/CoursesDashboard'))
 const Admin = lazy(()=> import('./pages/Admin'))
 const CourseForm = lazy(()=> import('./pages/CourseForm'))
+const CoursePage = lazy(() => import('./pages/CoursePage'))
 
 function App() {
 
@@ -24,9 +25,10 @@ function App() {
           <Route path={'/signup'} element={<Signup />} />
           <Route path={'/login'} element={<Login />} />
           <Route path={'/verify/:token'} element={<Verification />} />
-          <Route path={'/courses'} element={<Courses />} />
+          <Route path={'/courses'} element={<CoursesDashboard />} />
           <Route path={'/admin'} element={<Admin />} />
           <Route path={'/courses/form'} element={<CourseForm />} />
+          <Route path={'/courses/:id'} element={<CoursePage />} />
           
           <Route path={'*'} element={<Error />} />
         </Routes>

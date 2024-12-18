@@ -1,13 +1,16 @@
 // import React from 'react'
 
 interface CourseProps {
-    course: string
+    course: {
+      adminApproved: boolean,
+    }
 }
 
 const Course : React.FC<CourseProps> = ({course}) => {
+  console.log(course)
   return (
     <div>
-      {course}
+      hello
     </div>
   )
 }

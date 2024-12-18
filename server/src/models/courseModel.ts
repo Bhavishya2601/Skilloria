@@ -1,7 +1,7 @@
 import mongoose, {Document, Schema, Model} from "mongoose";
 
 interface ICourse extends Document {
-    id: String;
+    // id: String;
     name: String;
     duration: Number;
     author: String;
@@ -10,15 +10,30 @@ interface ICourse extends Document {
     dislike?: Number;
     comment?: string[];
     enrolledStudents?: string[];
-    content?: string[];
+    content?: Section[];
+    thumbnail: String;
+    adminApproved: Boolean
 }
 
+type Section = {
+    name: string;
+    modules: {
+      name: string;
+      file: string;
+    }[];
+  };
+
+  const moduleSchema = new Schema({
+    name: {type: String, required: true},
+    file: {type: String, required: true}
+  })
+
+  const sectionSchema = new Schema({
+    name: {type: String, required: true},
+    modules: {type: [moduleSchema], required: true}
+  })
+
 const courseSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        unique: true,
-        required: true
-    },
     name: {
         type: String,
         requried: true,
@@ -50,7 +65,15 @@ const courseSchema = new mongoose.Schema({
         type: [String],
     },
     content: {
-        type: [String]
+        type: [sectionSchema]
+    },
+    thumbnail: {
+        type: String,
+        required: true
+    },
+    adminApproved: {
+        type: Boolean,
+        default: false
     }
 })
 

@@ -25,6 +25,9 @@ const Signup: React.FC = () => {
       if (response.status === 200) {
         navigate('/courses')
         clearInterval(interval)
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/token`, email, {
+          withCredentials: true
+        })
       }
     } catch (err){
       console.log((err as Error))

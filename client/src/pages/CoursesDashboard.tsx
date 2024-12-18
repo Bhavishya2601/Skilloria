@@ -4,8 +4,12 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import Course from "../components/Course"
 
+interface Course {
+  adminApproved: boolean;
+}
+
 const Courses: React.FC = () => {
-  const [courses, setCourses] = useState([])
+  const [courses, setCourses] = useState<Course[]>([])
 
   useEffect(()=>{
 
@@ -23,11 +27,9 @@ const Courses: React.FC = () => {
   return (
     <div>
       courses
-      {courses.map((course)=>{
+      {courses.filter(course => course.adminApproved).map((course, index)=>{
         return (
-          <div>
-          <Course course={course} />
-          </div>
+          <Course key={index} course={course} />
         )
       })}
     </div>

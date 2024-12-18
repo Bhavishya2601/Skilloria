@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import crypto from "crypto"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 import verificationLinkTemplate from "../mailTemplates/verificationLink"
 import mailSender from "../utils/mailSender"
@@ -138,4 +139,8 @@ export const checkStatus = async (req: Request, res: Response) => {
         res.status(500).json({error: "something went wrong"})
         return
     }
+}
+
+export const token = (req : Request, res : Response) => {
+    console.log('hello')
 }

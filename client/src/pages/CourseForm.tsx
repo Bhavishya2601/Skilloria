@@ -3,7 +3,7 @@ import axios from 'axios';
 
 interface Module {
   name: string;
-  file: string | null; // Store Cloudinary URL instead of File object
+  file: string | null;
 }
 
 interface Section {
@@ -17,19 +17,16 @@ const CourseForm: React.FC = () => {
   ]);
   const [loading, setLoading] = useState(false);
 
-  // Add Section
   const addSection = () => {
     setSections([...sections, { name: '', modules: [{ name: '', file: null }] }]);
   };
 
-  // Delete Section
   const deleteSection = (sectionIndex: number) => {
     if (sections.length > 1) {
       setSections(sections.filter((_, index) => index !== sectionIndex));
     }
   };
 
-  // Add Module
   const addModule = (sectionIndex: number) => {
     setSections(sections.map((section, index) => {
       if (index === sectionIndex) {
@@ -39,7 +36,6 @@ const CourseForm: React.FC = () => {
     }));
   };
 
-  // Delete Module
   const deleteModule = (sectionIndex: number, moduleIndex: number) => {
     setSections(sections.map((section, index) => {
       if (index === sectionIndex && section.modules.length > 1) {
@@ -50,7 +46,6 @@ const CourseForm: React.FC = () => {
     }));
   };
 
-  // Cloudinary Upload
   const uploadFileToCloudinary = async (file: File) => {
     const cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dxmowzzi3/upload';
     const uploadPreset = 'Skilloria';
@@ -68,7 +63,7 @@ const CourseForm: React.FC = () => {
 
     try {
       const response = await axios.post(`${cloudinaryUrl}?resource_type=${resourceType}`, formData)
-      return response.data.secure_url; // Return Cloudinary URL
+      return response.data.secure_url;
     } catch (error) {
       console.error('Cloudinary Upload Error:', error);
       return null;
@@ -118,13 +113,22 @@ const CourseForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('Submitted Data:', sections);
 
-    axios
-      .post('http://localhost:3000/api/courses', { sections })
-      .then((response) => console.log('Data sent successfully:', response.data))
-      .catch((error) => console.error('Error sending data:', error));
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/course/addCourse`, {
+        author: "rahul", //name
+        email : "rahul@gmail.com", // email
+        name: "dsa",
+        duration: 10,
+        thumbnail: 'thumbanil url',
+        sections
+      })
+      console.log('Data sent successfully:', response.data)
+    } catch (err) {
+      console.log((err as Error).message)
+    }
   };
 
   return (
@@ -132,6 +136,7 @@ const CourseForm: React.FC = () => {
       <h2>Course Form</h2>
       <input type="text" placeholder='Course Name' /> <br /><br />
       <input type="text" placeholder='Course Duration' /> <br /><br />
+      thumbnail <input type="file" />
 
       {loading && <p>Uploading file, please wait...</p>}
 
