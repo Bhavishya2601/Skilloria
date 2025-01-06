@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
 import Loading from './components/Loading'
+import Header from './components/Header'
 
 const Home = lazy(() => import('./pages/Home'))
 const Signup = lazy(() => import('./pages/Signup'))
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header />
       <Toaster />
       <Suspense fallback={<Loading />}>
         <Routes>
@@ -29,7 +31,6 @@ function App() {
           <Route path={'/admin'} element={<Admin />} />
           <Route path={'/courses/form'} element={<CourseForm />} />
           <Route path={'/courses/:id'} element={<CoursePage />} />
-          
           <Route path={'*'} element={<Error />} />
         </Routes>
       </Suspense>
