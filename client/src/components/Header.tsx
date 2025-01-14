@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const Header = () => {
   return (
-    <div className="h-16 flex justify-between px-40 items-center ">
+    <div className="h-16 flex justify-between px-40 items-center shadow-xl">
       <div>
         logo
       </div>

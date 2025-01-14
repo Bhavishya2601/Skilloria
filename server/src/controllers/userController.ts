@@ -10,7 +10,17 @@ import User from "../models/userModel"
 
 const salt_rounds: string = process.env.SALT_ROUNDS || '10'
 
-interface LoginBody{
+const generateToken = (user : {id: string, email: string}) => {
+    return jwt.sign({
+        id: user.id, email: user.email
+    }, 
+    process.env.JWT_SECRET || 'SKILLORIA', 
+    {
+        expiresIn: '1d'
+    })
+}
+
+interface LoginBody {
     email: string;
     password: string
 }
@@ -75,13 +85,13 @@ export const verifiedUser = async (req: Request, res: Response) => {
             return
         }
         const { name, email, password, expiresAt } = pendingVerification
-        
+
         if (expiresAt < new Date()) {
             await pendingVerification.deleteOne({ token })
             res.status(404).json({ error: "Token expired" })
             return
         }
-        
+
         const newUser = new User({
             provider: "local",
             name,
@@ -89,7 +99,7 @@ export const verifiedUser = async (req: Request, res: Response) => {
             password,
         })
         await newUser.save()
-        
+
         await pendingVerification.deleteOne({ token })
 
         res.status(200).json({ message: "Email verified successfully" })
@@ -102,45 +112,52 @@ export const verifiedUser = async (req: Request, res: Response) => {
 }
 
 export const login = async (req: Request, res: Response) => {
-    const {email, password} = req.body as LoginBody
-    
-    try{
-        const user = await User.findOne({email})
-        if (!user){
-            res.status(400).json({error: "user doesn't exist"})
+    const { email, password } = req.body as LoginBody
+
+    try {
+        const user = await User.findOne({ email }) as {
+            _id : string,
+            email : string,
+            password : string
+        } | null
+        if (!user) {
+            res.status(400).json({ error: "user doesn't exist" })
             return
         }
-                
-        const match = await bcrypt.compare(password, user.password)
-        if (match){
-            res.status(200).json({message: "Email Verified Successfully"})
-            return
-        } 
-        res.status(400).json({message: 'Wrong Password'})
-        return 
 
-    } catch (err){
+        const match = await bcrypt.compare(password, user.password)
+        if (match) {
+            const cookie = generateToken({id: user._id, email: user.email})
+            res.cookie('skilloria', cookie, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: 'none'
+            })
+            res.status(200).json({ message: "Email Verified Successfully" })
+            return
+        }
+        res.status(400).json({ message: 'Wrong Password' })
+        return
+
+    } catch (err) {
         console.log((err as Error).message)
     }
 }
 
 export const checkStatus = async (req: Request, res: Response) => {
-    const {email} = req.body
+    const { email } = req.body
     try {
-        const user = await User.findOne({email})
-        if (!user){
-            res.status(202).json({error: 'User not found'})
+        const user = await User.findOne({ email })
+        if (!user) {
+            res.status(202).json({ error: 'User not found' })
             return
         }
-        res.status(200).json({message: "Authenticated successfully"})
+        res.status(200).json({ message: "Authenticated successfully" })
         return
-    } catch (err){
+    } catch (err) {
         console.log((err as Error).message)
-        res.status(500).json({error: "something went wrong"})
+        res.status(500).json({ error: "something went wrong" })
         return
     }
-}
-
-export const token = (req : Request, res : Response) => {
-    console.log('hello')
 }

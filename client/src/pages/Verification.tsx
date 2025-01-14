@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
+import Loading from "../components/Loading"
+import verificationSuccesful from '../assets/verificationSuccesful.gif'
 
 
 const Verification: React.FC = () => {
@@ -9,7 +11,6 @@ const Verification: React.FC = () => {
 
   useEffect(() => {
     const verifyEmail = async () => {
-      console.log('hello')
       try {
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verifiedUser`, token)
         console.log(response.data)
@@ -26,10 +27,24 @@ const Verification: React.FC = () => {
   return (
     <>
     {
-      verified ? 
-      <div>verified successfully</div>
+      !verified ? 
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
+        <div>
+          <img src={verificationSuccesful} alt="Verified Successfully" />
+        </div>
+        <div className="text-3xl font-semibold">Verified successfully</div>
+        <div className="text-2xl">You can now close this Window</div>
+      </div>
       : 
-      <div>please wait....</div>
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] gap-4">
+        <div>
+          <Loading />
+        </div>
+        <div className="gap-1 text-3xl text-center font-semibold">
+        <div>Please Wait...</div>
+        <div>Do not close this Window.</div>
+        </div>
+      </div>
       
     }
     </>

@@ -1,7 +1,6 @@
 import mongoose, {Document, Schema, Model} from "mongoose";
 
 interface ICourse extends Document {
-    // id: String;
     name: String;
     duration: Number;
     author: String;
