@@ -27,7 +27,7 @@ const Verification: React.FC = () => {
   return (
     <>
     {
-      !verified ? 
+      verified ? 
       <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
         <div>
           <img src={verificationSuccesful} alt="Verified Successfully" />
@@ -36,7 +36,7 @@ const Verification: React.FC = () => {
         <div className="text-2xl">You can now close this Window</div>
       </div>
       : 
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] gap-4">
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
         <div>
           <Loading />
         </div>

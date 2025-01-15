@@ -1,8 +1,8 @@
-// import React from 'react'
-
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Course from "../components/Course"
+import { useUser } from "../context/UserContext"
+import { useNavigate } from "react-router-dom"
 
 interface Course {
   adminApproved: boolean;
@@ -10,6 +10,16 @@ interface Course {
 
 const Courses: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([])
+  const {userData, isLoading} = useUser()
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    if (!userData && !isLoading) {
+      navigate('/');
+    } else if (userData && Object.entries(userData).length === 0 && !isLoading) {
+      navigate('/');
+    }
+  }, [userData, isLoading, navigate]);  
 
   useEffect(() => {
 

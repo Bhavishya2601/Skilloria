@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import crypto from "crypto"
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload as JwtPayloadBase } from "jsonwebtoken"
 
 import verificationLinkTemplate from "../mailTemplates/verificationLink"
 import mailSender from "../utils/mailSender"
@@ -28,6 +28,15 @@ interface LoginBody {
 interface SignupRequestBody extends LoginBody {
     name: string;
 }
+
+interface IUser {
+    _id: string; // Or ObjectId if you're using that
+    email: string;
+    password: string;
+    name: string;
+    provider: string;
+}
+
 
 export const signUp = async (req: Request, res: Response) => {
     const { name, email, password } = req.body as SignupRequestBody
@@ -100,9 +109,27 @@ export const verifiedUser = async (req: Request, res: Response) => {
         })
         await newUser.save()
 
+        const savedUser = await User.findById<IUser>(newUser._id);
+
+        if (!savedUser) {
+            res.status(500).json({ error: "Failed to fetch user after saving" });
+            return;
+        }
+
         await pendingVerification.deleteOne({ token })
 
-        res.status(200).json({ message: "Email verified successfully" })
+        const cookie = generateToken({ id: savedUser._id.toString(), email: savedUser.email });
+        res.cookie('skilloria', cookie, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: 'none'
+            })        
+
+        res.status(200).json({ 
+            message: "Email verified successfully",
+            user: savedUser
+        })
         return
     } catch (err) {
         console.log((err as Error).message)
@@ -146,18 +173,42 @@ export const login = async (req: Request, res: Response) => {
 }
 
 export const checkStatus = async (req: Request, res: Response) => {
-    const { email } = req.body
-    try {
-        const user = await User.findOne({ email })
-        if (!user) {
-            res.status(202).json({ error: 'User not found' })
-            return
-        }
-        res.status(200).json({ message: "Authenticated successfully" })
-        return
-    } catch (err) {
-        console.log((err as Error).message)
-        res.status(500).json({ error: "something went wrong" })
-        return
+    const token = req.cookies.skilloria;
+
+    if (!token) {
+        console.log("No token found");
+        res.status(400).json({ error: "No token found" });
+        return;
     }
-}
+
+    jwt.verify(
+        token,
+        process.env.JWT_SECRET || "SKILLORIA",
+        async (err: any, decoded: any) => {
+            if (err) {
+                console.log(err);
+                res.status(400).json({ error: "Invalid token" });
+                return;
+            }
+
+            if (!decoded) {
+                res.status(400).json({ error: "Token decoding failed" });
+                return;
+            }
+
+            const { id } = decoded;
+
+            try {
+                const user = await User.findById(id);
+                if (!user) {
+                    res.status(404).json({ error: "User not found" });
+                    return;
+                }
+                res.json({ user });
+            } catch (error: any) {
+                console.log("Error fetching user data:", error.message);
+                res.status(500).json({ error: "Something went wrong" });
+            }
+        }
+    );
+};

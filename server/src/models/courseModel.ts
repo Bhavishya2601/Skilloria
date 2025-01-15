@@ -2,7 +2,7 @@ import mongoose, {Document, Schema, Model} from "mongoose";
 
 interface ICourse extends Document {
     name: String;
-    duration: Number;
+    duration: String;
     author: String;
     email: String;
     like?: Number;
@@ -38,7 +38,7 @@ const courseSchema = new mongoose.Schema({
         requried: true,
     },
     duration: {
-        type: Number,
+        type: String,
         required: true,
     },
     author: {

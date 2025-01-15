@@ -6,6 +6,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import p1 from '../assets/p1.png'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { useUser } from '../context/UserContext.tsx'
 
 type FormData = {
   name: string,
@@ -15,6 +16,7 @@ type FormData = {
 
 const Signup: React.FC = () => {
   const navigate = useNavigate()
+  const {setReTrigger} = useUser()
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
@@ -23,13 +25,13 @@ const Signup: React.FC = () => {
 
   const CheckSignUpStatus = async (email: string) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/checkStatus`, { email })
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/checkStatus`, { email }, {
+        withCredentials: true
+      })
       if (response.status === 200) {
         navigate('/courses')
         clearInterval(interval)
-        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/token`, email, {
-          withCredentials: true
-        })
+        setReTrigger((prev) => prev + 1)
       }
     } catch (err) {
       console.error((err as Error))

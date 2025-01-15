@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import p1 from '../assets/p1.png'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { useUser } from '../context/UserContext.tsx'
 
 type FormData = {
   email: string,
@@ -14,6 +15,7 @@ type FormData = {
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
+  const { setReTrigger } = useUser()
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
@@ -27,6 +29,7 @@ const Login: React.FC = () => {
       }, {
         withCredentials: true
       })
+      setReTrigger((prev) => prev + 1)
       console.log(response.data)
       if (response.status === 200) {
         toast.success('Login Successfully')

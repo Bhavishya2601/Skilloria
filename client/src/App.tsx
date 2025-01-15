@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast'
 
 import Loading from './components/Loading'
 import Header from './components/Header'
-import UserProvider from './context/userContext'
+import UserProvider from './context/UserContext.tsx'
 
 const Home = lazy(() => import('./pages/Home'))
 const Signup = lazy(() => import('./pages/Signup'))
@@ -31,7 +31,7 @@ function App() {
             <Route path={'/verify/:token'} element={<Verification />} />
             <Route path={'/courses'} element={<CoursesDashboard />} />
             <Route path={'/admin'} element={<Admin />} />
-            <Route path={'/courses/form'} element={<CourseForm />} />
+            <Route path={'/courseform'} element={<CourseForm />} />
             <Route path={'/courses/:id'} element={<CoursePage />} />
             <Route path={'*'} element={<Error />} />
           </Routes>

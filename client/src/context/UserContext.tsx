@@ -30,7 +30,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         const fetchUserStatus = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/checkstatus`, {
+                const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/checkstatus`, null, {   
                     withCredentials: true,
                 });
                 console.log(response.data);
@@ -42,7 +42,8 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                     setIsLoggedIn(false);
                 }
             } catch (err) {
-                console.error('Error checking user status:', err);
+                // console.error('Error checking user status:', err);
+                console.log('No user found')
                 setUserData(null);
                 setIsLoggedIn(false);
             } finally {
