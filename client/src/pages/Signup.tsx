@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -16,12 +16,18 @@ type FormData = {
 
 const Signup: React.FC = () => {
   const navigate = useNavigate()
-  const {setReTrigger} = useUser()
+  const { userData, setReTrigger} = useUser()
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
     handleSubmit
   } = useForm<FormData>()
+
+    useEffect(() => {
+      if (userData && Object.entries(userData).length !== 0) {
+        navigate('/courses')
+      }
+    })
 
   const CheckSignUpStatus = async (email: string) => {
     try {

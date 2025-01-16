@@ -32,6 +32,11 @@ type Section = {
     modules: {type: [moduleSchema], required: true}
   })
 
+  const enrolledStudentSchema = new Schema({
+    name: {type: String, required: true},
+    email: {type: String, required: true}
+  })
+
 const courseSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -61,7 +66,7 @@ const courseSchema = new mongoose.Schema({
         type: [String],
     },
     enrolledStudents: {
-        type: [String],
+        type: [enrolledStudentSchema],
     },
     content: {
         type: [sectionSchema]

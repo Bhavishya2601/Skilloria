@@ -11,6 +11,17 @@ interface IUser extends Document {
     createdAt?: Date;
 }
 
+const courseDetails = new Schema({
+    courseId: {
+        type: String,
+        required: true
+    },
+    courseName: {
+        type: String,
+        required: true
+    }
+})
+
 const userSchema = new mongoose.Schema({
     provider: {
         type: String,
@@ -37,7 +48,7 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     courseEnrolled: {
-        type: [String]
+        type: [courseDetails]
     },
     courseOffered: {
         type: [String]

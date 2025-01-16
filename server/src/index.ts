@@ -10,6 +10,7 @@ dotenv.config()
 
 import userRoutes from './routes/userRoute'
 import courseRoutes from './routes/courseRoute'
+import enrollRoutes from './routes/enrollRoute'
 
 const port = process.env.PORT
 const app = express()
@@ -62,6 +63,7 @@ app.get('/', (req: Request, res: Response)=>{
 
 app.use('/user', userRoutes)
 app.use('/course', courseRoutes)
+app.use('/enroll', enrollRoutes)
 
 const startServer = async () : Promise<void> => {
     await connectToDB()

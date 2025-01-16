@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -15,12 +15,18 @@ type FormData = {
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
-  const { setReTrigger } = useUser()
+  const { userData, setReTrigger } = useUser()
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
     handleSubmit
   } = useForm<FormData>()
+
+  useEffect(() => {
+    if (userData && Object.entries(userData).length !== 0) {
+      navigate('/courses')
+    }
+  })
 
   const handleLogin = handleSubmit(async ({ email, password }) => {
     try {
@@ -30,7 +36,6 @@ const Login: React.FC = () => {
         withCredentials: true
       })
       setReTrigger((prev) => prev + 1)
-      console.log(response.data)
       if (response.status === 200) {
         toast.success('Login Successfully')
         navigate('/courses')
@@ -48,7 +53,7 @@ const Login: React.FC = () => {
         <div className='text-4xl font-bold text-center'>
           <div>Log in to continue your</div>
           <div>learning journey</div>
-          </div>
+        </div>
         <form onSubmit={handleLogin} className='flex flex-col gap-4 w-3/5'>
           <div className="relative">
             <input
@@ -80,7 +85,7 @@ const Login: React.FC = () => {
               Password
             </label>
             <div className='absolute right-4 top-4 cursor-pointer' onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEyeSlash className='text-2xl'/> : <FaEye className='text-2xl'/>}
+              {showPassword ? <FaEyeSlash className='text-2xl' /> : <FaEye className='text-2xl' />}
             </div>
           </div>
           <input
