@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
         type: [courseDetails]
     },
     courseOffered: {
-        type: [String]
+        type: [courseDetails]
     },
     createdAt: {
         type: Date,

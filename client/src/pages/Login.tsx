@@ -15,7 +15,7 @@ type FormData = {
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
-  const { userData, setReTrigger } = useUser()
+  const { userData, setReTrigger, isLoading } = useUser()
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   } = useForm<FormData>()
 
   useEffect(() => {
-    if (userData && Object.entries(userData).length !== 0) {
+    if (!isLoading && userData && Object.entries(userData).length !== 0) {
       navigate('/courses')
     }
   })

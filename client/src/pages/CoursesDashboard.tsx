@@ -30,15 +30,15 @@ const Courses: React.FC = () => {
 
   useEffect(() => {
 
-    const fetchContacts = async () => {
+    const fetchCourses = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/getAll`)
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/AllCourses`)
         setCourses(response.data)
       } catch (err) {
         console.log((err as Error).message)
       }
     }
-    fetchContacts()
+    fetchCourses()
   }, [])
 
   return (

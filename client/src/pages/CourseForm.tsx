@@ -151,10 +151,9 @@ const CourseForm: React.FC = () => {
       toast.error('User not found')
       return
     }
-    console.log('Submitted Data:', sections);
-
+    setLoading(true)
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/course/addCourse`, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/course/addCourse`, {
         author: userData.name,
         email: userData.email,
         name: courseDetails.name,
@@ -162,9 +161,12 @@ const CourseForm: React.FC = () => {
         thumbnail: courseDetails.thumbnail,
         sections
       })
-      console.log('Data sent successfully:', response.data)
+      toast.success('Course created successfully, Waiting for Admin Approval')
     } catch (err) {
       console.log((err as Error).message)
+      toast.error('Error creating course, Try again Later')
+    } finally{
+      setLoading(false)
     }
   };
 

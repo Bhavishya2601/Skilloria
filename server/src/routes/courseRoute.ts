@@ -1,10 +1,16 @@
 import express from 'express'
-import { getAll, addCourse, fetchCourse } from '../controllers/courseController'
+import { 
+    AllCourses, 
+    addCourse, 
+    fetchCourse,
+    acceptCourse
+ } from '../controllers/courseController'
 
 const router = express.Router()
 
-router.get('/getAll', getAll)
+router.get('/AllCourses', AllCourses)
 router.post('/addCourse', addCourse)
 router.post('/fetchCourse', fetchCourse)
+router.post('/acceptCourse', acceptCourse)
 
 export default router

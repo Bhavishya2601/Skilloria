@@ -10,14 +10,14 @@ import User from "../models/userModel"
 
 const salt_rounds: string = process.env.SALT_ROUNDS || '10'
 
-const generateToken = (user : {id: string, email: string}) => {
+const generateToken = (user: { id: string, email: string }) => {
     return jwt.sign({
         id: user.id, email: user.email
-    }, 
-    process.env.JWT_SECRET || 'SKILLORIA', 
-    {
-        expiresIn: '1d'
-    })
+    },
+        process.env.JWT_SECRET || 'SKILLORIA',
+        {
+            expiresIn: '1d'
+        })
 }
 
 interface LoginBody {
@@ -38,7 +38,7 @@ interface IUser {
 }
 
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (req: Request, res: Response) => {  // signup
     const { name, email, password } = req.body as SignupRequestBody
 
     const existingUser = await PendingVerification.findOne({ email })
@@ -79,7 +79,33 @@ export const signUp = async (req: Request, res: Response) => {
     }
 }
 
-export const verifiedUser = async (req: Request, res: Response) => {
+export const checkSignUpStatus = async (req: Request, res: Response) => {
+    const { email } = req.body
+    try {
+        const user = await User.findOne({ email })
+        if (user) {
+            const id = user._id!.toString()
+            const cookie = generateToken({ id: id, email: user.email });
+            res.cookie('skilloria', cookie, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: 'none'
+            })
+
+            res.status(200).json({ message: 'Successfully Signed Up' })
+            return
+        }
+        res.status(404).json({ error: 'User not found' })
+        return
+    } catch (err) {
+        console.log((err as Error).message)
+        res.status(500).json({ error: 'Something went wrong' })
+        return
+    }
+}
+
+export const verifiedUser = async (req: Request, res: Response) => { // for verification through mail
     const { token } = req.body
     try {
 
@@ -110,7 +136,6 @@ export const verifiedUser = async (req: Request, res: Response) => {
         await newUser.save()
 
         const savedUser = await User.findById<IUser>(newUser._id);
-
         if (!savedUser) {
             res.status(500).json({ error: "Failed to fetch user after saving" });
             return;
@@ -118,15 +143,7 @@ export const verifiedUser = async (req: Request, res: Response) => {
 
         await pendingVerification.deleteOne({ token })
 
-        const cookie = generateToken({ id: savedUser._id.toString(), email: savedUser.email });
-        res.cookie('skilloria', cookie, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 24 * 60 * 60 * 1000,
-                sameSite: 'none'
-            })        
-
-        res.status(200).json({ 
+        res.status(200).json({
             message: "Email verified successfully",
             user: savedUser
         })
@@ -138,14 +155,14 @@ export const verifiedUser = async (req: Request, res: Response) => {
     }
 }
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => { // login
     const { email, password } = req.body as LoginBody
 
     try {
         const user = await User.findOne({ email }) as {
-            _id : string,
-            email : string,
-            password : string
+            _id: string,
+            email: string,
+            password: string
         } | null
         if (!user) {
             res.status(400).json({ error: "user doesn't exist" })
@@ -154,7 +171,7 @@ export const login = async (req: Request, res: Response) => {
 
         const match = await bcrypt.compare(password, user.password)
         if (match) {
-            const cookie = generateToken({id: user._id, email: user.email})
+            const cookie = generateToken({ id: user._id, email: user.email })
             res.cookie('skilloria', cookie, {
                 httpOnly: true,
                 secure: true,
@@ -172,7 +189,7 @@ export const login = async (req: Request, res: Response) => {
     }
 }
 
-export const checkStatus = async (req: Request, res: Response) => {
+export const checkStatus = async (req: Request, res: Response) => { // used in userContext to check if user is logged in or not
     const token = req.cookies.skilloria;
 
     if (!token) {
@@ -186,7 +203,6 @@ export const checkStatus = async (req: Request, res: Response) => {
         process.env.JWT_SECRET || "SKILLORIA",
         async (err: any, decoded: any) => {
             if (err) {
-                console.log(err);
                 res.status(400).json({ error: "Invalid token" });
                 return;
             }
@@ -212,3 +228,18 @@ export const checkStatus = async (req: Request, res: Response) => {
         }
     );
 };
+
+export const logout = async (req: Request, res: Response) => { // logout
+    res.clearCookie('skilloria')
+    res.status(200).json({ message: 'Logged out successfully' })
+}
+
+export const allUsers = async (req: Request, res: Response) => { // get all users
+    try {
+        const users = await User.find()
+        res.status(200).json({ users })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: 'Something went wrong' })
+    }
+}

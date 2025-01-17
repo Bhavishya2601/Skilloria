@@ -1,10 +1,17 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import axios from 'axios';
 
+interface courseDetails {
+    courseId: string;
+    courseName: string;
+}
+
 interface User {
     id: string;
     name: string;
     email: string;
+    courseEnrolled?: courseDetails[];
+    isAdmin?: boolean;
 }
 
 interface UserContextType {

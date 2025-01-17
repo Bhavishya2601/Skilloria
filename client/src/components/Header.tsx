@@ -14,6 +14,7 @@ const Header = () => {
         {userData != null ? <Link to={'/courseform'} className='hover:text-[#20BFF0] transition-all duration-300'>Add Course</Link> :
           <Link to={'/login'} className='hover:text-[#20BFF0] transition-all duration-300'>Get Started</Link>
         }
+        {userData?.isAdmin && <Link to={'/admin'} className='hover:text-[#20BFF0] transition-all duration-300'>Admin</Link>}
       </div>
     </div>
   )

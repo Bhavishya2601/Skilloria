@@ -1,7 +1,8 @@
 import { Request, Response } from "express"
 import Course from "../models/courseModel"
+import User from "../models/userModel"
 
-export const getAll = async (req : Request, res : Response) => {
+export const AllCourses = async (req : Request, res : Response) => {
     try{
         const courses = await Course.find({})
         res.status(200).json(courses)
@@ -23,6 +24,16 @@ export const addCourse = async (req : Request, res : Response) => {
             content: sections
         })
         await course.save()
+
+        const user = await User.updateOne({ email }, {
+            $push: {
+                courseOffered: {
+                    courseId : course._id,
+                    courseName : name
+                }
+            }
+        })
+
         res.status(200).json({message: "Added Successfully"})
         return
     } catch (err){
@@ -47,5 +58,21 @@ export const fetchCourse = async (req : Request, res : Response) => {
         res.status(200).json(course)
     } catch (err){
         console.log((err as Error).message)
+    }
+}
+
+export const acceptCourse = async (req : Request, res : Response) => {
+    const {id} = req.body
+    try {
+        const course = await Course.updateOne({ _id: id }, {
+            adminApproved: true
+        })
+        console.log(course)
+        res.status(200).json({course})
+        return
+    } catch (err){
+        console.log((err as Error).message)
+        res.status(500).json({error: 'Something went wrong'})
+        return
     }
 }
