@@ -36,7 +36,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="relative w-full h-[calc(100vh-60px)] font-manrope overflow-hidden">
+      <div className="relative w-full h-[calc(100vh-80px)] font-manrope overflow-hidden">
         <div
           className="absolute inset-0 bg-black bg-opacity-50 z-0 w-screen bg-cover bg-right transition-all duration-1000 "
           style={{ backgroundImage: `url(${images[currentIndex].src})` }}
@@ -55,13 +55,13 @@ const Home: React.FC = () => {
             <div className="text-6xl font-bold text-white">
               Join the Biggest Community of <br /> Skilloria
             </div>
-            <Link to="/login" className="bg-[#20BFF0] font-semibold text-white tracking-wider uppercase py-2 px-4 rounded-full self-start">Get Started</Link>
+            <Link to="/login" className="bg-purple-600 hover:bg-purple-500 font-bold text-white tracking-wide uppercase py-2 px-4 rounded-full self-start text-lg">Get Started</Link>
           </motion.h1>
         </div>
       </div>
-      <div className="m-28 p-8 py-16 flex justify-between gap-10"
+      <div className="m-28 p-8 py-16 flex justify-between gap-10 rounded-lg"
         style={{
-          boxShadow: "0 0 40px 4px rgba(148, 230, 255, 0.5)",
+          boxShadow: "0 0 20px 3px #6C6DFF",
         }}
       >
         <div className="flex flex-col gap-3 justify-center items-center text-center">

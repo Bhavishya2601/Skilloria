@@ -59,9 +59,9 @@ const Admin: React.FC = () => {
     }
   }
 
-  const handleAcceptCourse = async (id: string) => {
+  const handleAcceptCourse = async (id: string, name: string, author: string, email: string) => {
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/course/acceptCourse`, { id })
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/course/acceptCourse`, { id, name, author, email })
       fetchAllCourses()
     } catch (err) {
       console.log((err as Error).message)
@@ -102,7 +102,7 @@ const Admin: React.FC = () => {
                 <td className='border-2 py-2 px-3'><img src={course.thumbnail} alt="Thumbnail" className='h-[100px] w-[250px]' /></td>
                 <td className='border-2 py-2 px-3'><Link to={`/courses/${course._id}`}>View Course</Link></td>
                 <td className='border-2 py-2 px-3'>
-                  <div className='bg-green-600 text-white py-2 px-4 rounded-lg cursor-pointer' onClick={() => handleAcceptCourse(course._id)}>Accept</div>
+                  <div className='bg-green-600 text-white py-2 px-4 rounded-lg cursor-pointer' onClick={() => handleAcceptCourse(course._id, course.name, course.author, course.email)}>Accept</div>
                 </td>
               </tr>
             ))}

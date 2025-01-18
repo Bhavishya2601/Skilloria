@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         manrope: ['Manrope', 'sans-serif'],
+        dmSerif: ['DM Serif Text', 'serif'],
       },
       animation: {
         'slide-up': 'slide-up 2s ease-in-out',

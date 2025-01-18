@@ -19,6 +19,7 @@ const Signup: React.FC = () => {
   const { userData, setReTrigger } = useUser();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -45,18 +46,21 @@ const Signup: React.FC = () => {
         setReTrigger(prev => prev + 1);
         toast.success('Verification Successful', { id: verificationToastId });
         navigate('/courses');
+        setLoading(false)
       }
     } catch (err : any) {
       if (err.response && err.response.status === 404) {
         return
       }
-      toast.error('Something Went Wrong132');
+      setLoading(false)
+      toast.error('Something Went Wrong');
       clearInterval(intervalRef.current!);
       intervalRef.current = null;
     }
   }
 
   const handleSignup = handleSubmit(async ({ name, email, password }) => {
+    setLoading(true)
     const loadingToastId = toast.loading('Signing Up...');
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, {
@@ -77,10 +81,12 @@ const Signup: React.FC = () => {
 
         } catch (err) {
           toast.error('Something Went Wrong', { id: verificationToastId });
+          setLoading(false)
         }
       }
     } catch (err) {
       toast.error('Something Went Wrong', { id: loadingToastId });
+      setLoading(false)
     }
   });
 
@@ -94,7 +100,7 @@ const Signup: React.FC = () => {
   }, []);
 
   return (
-    <div className='min-h-[calc(100vh-4rem)] flex gap-10'>
+    <div className='min-h-[calc(100vh-5rem)] flex gap-10'>
       <div className='w-1/2 flex justify-end items-center'>
         <img src={p1} alt="login" />
       </div>
@@ -117,7 +123,13 @@ const Signup: React.FC = () => {
           <div className="relative">
             <input
               type="email"
-              {...register("email", { required: 'Email is required' })}
+              {...register("email", { 
+                required: 'Email is required',
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
+                  message: 'Please enter a valid email address',
+                },
+               })}
               className="peer w-full p-2 pt-6 pb-2 border-2 border-gray-300 bg-white rounded-md outline-none focus:border-purple-500 transition-all"
               placeholder=" "
             />
@@ -130,7 +142,17 @@ const Signup: React.FC = () => {
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
-              {...register("password", { required: 'Password is required' })}
+              {...register("password", { 
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password must be at least 8 characters',
+                },
+                maxLength: {
+                  value: 16,
+                  message: 'Password cannot exceed 16 characters',
+                },
+              })}
               className="peer w-full p-2 pt-6 pb-2 border-2 border-gray-300 bg-white rounded-md outline-none focus:border-purple-500 transition-all"
               placeholder=" "
             />
@@ -146,7 +168,8 @@ const Signup: React.FC = () => {
           <input
             type="submit"
             value="Sign up"
-            className='w-full px-2 py-3 text-lg cursor-pointer bg-purple-600 text-white font-bold rounded-md hover:bg-purple-700 transition-colors'
+            disabled={loading}
+            className={`w-full px-2 py-3 text-lg bg-purple-600 text-white font-bold rounded-md hover:bg-purple-700 transition-colors ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
           />
         </form>
         <div>Already have an Account? <Link to={'/login'} className='text-purple-600 font-bold'>Login</Link></div>

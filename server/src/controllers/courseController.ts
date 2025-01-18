@@ -1,6 +1,9 @@
 import { Request, Response } from "express"
 import Course from "../models/courseModel"
 import User from "../models/userModel"
+import mailSender from "../utils/mailSender"
+import courseUpload from "../mailTemplates/courseUpload"
+import courseAccepted from "../mailTemplates/courseAccepted"
 
 export const AllCourses = async (req : Request, res : Response) => {
     try{
@@ -34,6 +37,8 @@ export const addCourse = async (req : Request, res : Response) => {
             }
         })
 
+        mailSender(email, 'Skilloria - Course Successfully Uploaded', courseUpload(name, author))
+
         res.status(200).json({message: "Added Successfully"})
         return
     } catch (err){
@@ -62,12 +67,13 @@ export const fetchCourse = async (req : Request, res : Response) => {
 }
 
 export const acceptCourse = async (req : Request, res : Response) => {
-    const {id} = req.body
+    const {id, name : courseName, author, email} = req.body
     try {
         const course = await Course.updateOne({ _id: id }, {
             adminApproved: true
         })
-        console.log(course)
+        mailSender(email, 'Skilloria - Course Approval Successful', courseAccepted(courseName, author))
+
         res.status(200).json({course})
         return
     } catch (err){

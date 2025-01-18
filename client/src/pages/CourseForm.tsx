@@ -45,10 +45,6 @@ const CourseForm: React.FC = () => {
     }
   }, [userData, isLoading, navigate]);
 
-  useEffect(() => {
-    console.log(courseDetails)
-  }, [courseDetails])
-
   const addSection = () => {
     setSections([...sections, { name: '', modules: [{ name: '', file: null }] }]);
   };
@@ -147,7 +143,6 @@ const CourseForm: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!userData) {
-      console.log('User not found')
       toast.error('User not found')
       return
     }
