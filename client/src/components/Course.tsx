@@ -28,6 +28,10 @@ const Course: React.FC<CourseProps> = ({ course }) => {
     setCourseId(id)
   }
 
+  const handleOpenEnrolledCourse = () => {
+    navigate(`/courses/${course._id}`)
+  }
+
   const ConfirmEnroll = async () => {
     setEnrolling(true)
     try {
@@ -47,17 +51,23 @@ const Course: React.FC<CourseProps> = ({ course }) => {
     }
   }
 
+  const isEnrolled = userData?.courseEnrolled?.some(userCourse => userCourse.courseId === course._id)
+
   return (
-    <div className="w-[22vw] min-h-[250px] h-[335px] flex flex-col gap-2 cursor-pointer p-1 border-2 hover:bg-[#F8F8F8] rounded-lg duration-500 transition-all">
+    <div className="w-[22vw] min-h-[250px] h-[335px] flex flex-col gap-2 p-1 border-2 bg-[#f6f6f6] rounded-lg">
       <img src={course.thumbnail} alt="thumbnail" className="w-full h-[200px] rounded-lg" />
-      <div className="flex flex-col px-1 gap-1">
+      <div className="flex flex-col px-2 gap-1">
         <div className="text-lg leading-5 font-semibold">{course.name}</div>
         <div className="flex flex-col">
         <div className="text-sm text-gray-600">By {course.author}</div>
         <div className="text-sm text-gray-600">Duration : {course.duration}</div>
         </div>
-        {/* {userData!.courseEnrolled.includes(course._id) && <div className="text-sm text-green-600">Enrolled</div>} */}
-        <div className="bg-purple-600 px-4 py-2 rounded-xl text-white font-semibold w-1/2 text-center hover:bg-purple-500" onClick={handleOpenCourse(course._id)}>Enroll Now</div>
+        {
+          isEnrolled ? 
+          <div className="bg-gradient-to-r hover:bg-gradient-to-tr from-[#4169E1] to-[#8A2BE2] px-4 py-2 rounded-xl text-white font-bold w-1/2 text-center cursor-pointer hover:scale-105 transition-all duration-700" onClick={handleOpenEnrolledCourse}>Go to Course</div>
+          : 
+        <div className="bg-gradient-to-r hover:bg-gradient-to-tr from-[#4169E1] to-[#8A2BE2] px-4 py-2 rounded-xl text-white font-bold w-1/2 text-center cursor-pointer hover:scale-105 transition-all duration-700" onClick={handleOpenCourse(course._id)}>Enroll Now</div>
+        }
 
         {enrolling && <Loading />}
 

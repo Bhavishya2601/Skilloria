@@ -53,9 +53,7 @@ export const fetchCourse = async (req : Request, res : Response) => {
     const {token} = req.body
 
     try {
-        console.log(token)
         const course = await Course.findOne({_id : token})
-        console.log(course)
         if (!course){
             res.status(404).json({error: 'Token doesn\'t exist'})
             return

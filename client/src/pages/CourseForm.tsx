@@ -182,6 +182,7 @@ const CourseForm: React.FC = () => {
               name='name'
               value={courseDetails.name}
               onChange={(e) => setCourseDetails({ ...courseDetails, name: e.target.value })}
+              required
             />
             <label
               className="absolute left-3 top-2 text-gray-500 text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-lg peer-focus:top-2 peer-focus:text-sm peer-focus:text-purple-500 transition-all">
@@ -196,6 +197,7 @@ const CourseForm: React.FC = () => {
               name='duration'
               value={courseDetails.duration}
               onChange={(e) => setCourseDetails({ ...courseDetails, duration: e.target.value })}
+              required
             />
             <label
               className="absolute left-3 top-2 text-gray-500 text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-lg peer-focus:top-2 peer-focus:text-sm peer-focus:text-purple-500 transition-all">
@@ -323,7 +325,7 @@ const CourseForm: React.FC = () => {
             <p style={{ color: 'red' }}>Each section must have at least 1 module.</p>
           )}
 
-          <input type="submit" value="create course" disabled={loading} className='w-full py-3 text-white text-xl font-semibold rounded-lg bg-purple-600 hover:bg-purple-500 uppercase' />
+          <input type="submit" value="create &thinsp; course" disabled={loading} className='w-full py-3 tracking-wider text-white text-xl font-bold rounded-lg bg-purple-600 hover:bg-purple-700 uppercase' />
         </form>
       </div>
     </div>

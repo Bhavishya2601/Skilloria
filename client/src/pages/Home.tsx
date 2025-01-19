@@ -55,7 +55,7 @@ const Home: React.FC = () => {
             <div className="text-6xl font-bold text-white">
               Join the Biggest Community of <br /> Skilloria
             </div>
-            <Link to="/login" className="bg-purple-600 hover:bg-purple-500 font-bold text-white tracking-wide uppercase py-2 px-4 rounded-full self-start text-lg">Get Started</Link>
+            <Link to="/login" className="bg-gradient-to-r from-[#4169E1] to-[#8A2BE2] hover:bg-gradient-to-br font-bold text-white tracking-wide uppercase py-2 px-4 rounded-full self-start text-lg">Get Started</Link>
           </motion.h1>
         </div>
       </div>

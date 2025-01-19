@@ -280,7 +280,6 @@ export const googleMain = async (req: Request, res: Response) => { // google log
         })
         const userInfo = userInfoResponse.data as GoogleUserInfo
 
-        console.log(userInfo)
         const {id, email, name} = userInfo
 
         let user = await User.findOne({ email })

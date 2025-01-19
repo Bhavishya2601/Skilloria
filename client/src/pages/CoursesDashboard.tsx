@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import Course from "../components/Course"
 import { useUser } from "../context/UserContext"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { IoIosAddCircle } from "react-icons/io";
 import Footer from "../components/Footer"
+import d1 from '../assets/d1.jpg'
 
 interface Course {
   _id: string
@@ -43,14 +44,21 @@ const Courses: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-[calc(100vh-4rem)] flex flex-col gap-4 p-6">
-        <div className="w-full bg-red-500 h-[50vh] rounded-lg p-5">
-          div
+      <div className="min-h-[calc(100vh-4rem)] flex flex-col gap-8 p-6">
+        <div className="w-full bg-gradient-to-r from-blue-900 to-blue-500 text-white h-[50vh] rounded-lg p-8 flex justify-center">
+          <div className="flex flex-col gap-5 w-2/3 px-4 py-10 font-manrope">
+            <div className="text-4xl font-bold">Unlock Your Potential, Learn without Limits</div>
+            <div>Explore a wide variety of expert-led video courses, with fresh content <br /> added regularly to help you grow.</div>
+            <Link to={'/courseform'} className="py-2 px-5 bg-gradient-to-r from-[#4169E1] to-[#8A2BE2] rounded-lg self-start">Add Course</Link>
+          </div>
+          <div className="w-1/3 flex justify-end">
+            <img src={d1} alt="SKilloria" className="w-full h-full rounded-lg" />
+          </div>
         </div>
-        <div className="flex flex-col gap-2 font-manrope">
-          <div className="text-4xl px-4 font-semibold font-mono">Courses</div>
+        <div className="flex flex-col gap- font-manrope">
+          <div className="text-4xl px-4 tracking-wide font-dmSerif">Courses - Explore Your Potential</div>
 
-          <div className="flex-grow overflow-auto flex justify-between gap-4 flex-wrap px-4">
+          <div className="grid grid-cols-4 gap-4 px-4">
             {courses.filter(course => course.adminApproved).map((course, index) => (
               <Course key={index} course={course} />
             ))}

@@ -15,6 +15,7 @@ const CoursesDashboard = lazy(() => import('./pages/CoursesDashboard'))
 const Admin = lazy(() => import('./pages/Admin'))
 const CourseForm = lazy(() => import('./pages/CourseForm'))
 const CoursePage = lazy(() => import('./pages/CoursePage'))
+const Learning = lazy(() => import('./pages/Learning.tsx'))
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
             <Route path={'/admin'} element={<Admin />} />
             <Route path={'/courseform'} element={<CourseForm />} />
             <Route path={'/courses/:id'} element={<CoursePage />} />
+            <Route path={'/learning'} element={<Learning />} />
             <Route path={'*'} element={<Error />} />
           </Routes>
         </Suspense>
