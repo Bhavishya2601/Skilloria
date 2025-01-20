@@ -19,11 +19,8 @@ interface Courseinfo {
     duration: number;
     author: string;
     email: string;
-    like?: number;
-    dislike?: number;
     thumbnail: string;
     adminApproved: Boolean;
-    comment?: string[];
     enrolledStudents: string[];
     content: Section[]
 }
@@ -32,7 +29,7 @@ const CoursePage: React.FC = () => {
     const { id } = useParams()
     const [courseData, setCourseData] = useState<Courseinfo | null>(null)
     const [isloading, setIsLoading] = useState(true)
-    const [openSection, setOpenSection] = useState<number | null>(null)
+    const [openSection, setOpenSection] = useState<number | null>(0)
     const [contentShown, setContentShown] = useState<string>('')
 
     useEffect(() => {
@@ -66,7 +63,7 @@ const CoursePage: React.FC = () => {
             {isloading ? <Loading /> : (
                 courseData &&
                 <div className="flex h-[calc(100vh-5rem)] font-manrope">
-                    <div className="w-2/3 flex flex-col">
+                    <div className="w-2/3 flex flex-col shadow-md">
                         <div className="h-[70%]">
                             <video src={contentShown}
                                 controls
@@ -75,12 +72,13 @@ const CoursePage: React.FC = () => {
                                 className="h-full w-full"
                             />
                         </div>
-                        <div className="h-[30%] p-3">
-                            <div>{courseData.name}</div>
-                            <div>{courseData.duration}h</div>
-                            <div>like {courseData.like}</div>
-                            <div>dislike {courseData.dislike}</div>
-                            <div>comment section</div>
+                        <div className="h-[30%] p-6 px-10 flex flex-col gap-2">
+                            <div className="text-3xl font-medium break-words">{courseData.name}</div>
+                            <div className="flex gap-10">
+                            <div><span className="font-bold">Total:</span> {courseData.duration} hours</div>
+                            <div><span className="font-bold">Enrolled Students:</span> {courseData.enrolledStudents.length}</div>
+                            </div>
+                            <div>By:  {courseData.author}</div>
                         </div>
                     </div>
                     <div className="w-1/3   ">

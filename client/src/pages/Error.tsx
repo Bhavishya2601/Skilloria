@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const Error: React.FC = () => {
   return (
-    <div className='flex flex-col justify-center items-center min-h-[calc(100vh-4rem)]'>
+    <div className='flex flex-col justify-center items-center min-h-[calc(100vh-5rem)]'>
       <div className='text-4xl font-semibold font-manrope'>404 Page Not Found</div>
       <div>
       <img src={error} alt="" />

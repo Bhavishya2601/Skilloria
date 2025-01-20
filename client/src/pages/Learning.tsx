@@ -17,14 +17,13 @@ interface Course {
 
 const Learning = () => {
     const { userData } = useUser()
-    const [courses, setCourses] = useState<Course[]>([])
+    const [enrolledCourses, setEnrolledCourses] = useState<Course[]>([])
 
     useEffect(() => {
-
         const fetchCourses = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/AllCourses`)
-                setCourses(response.data)
+                setEnrolledCourses(response.data.filter((course: any) => userData?.courseEnrolled?.some(enrolledCourse => enrolledCourse.courseId === course._id)))
             } catch (err) {
                 console.log((err as Error).message)
             }
@@ -32,6 +31,7 @@ const Learning = () => {
         fetchCourses()
     }, [])
 
+    console.log('hello', enrolledCourses)
     return (
         <>
             <div className='min-h-[calc(100vh-4rem)] flex flex-col gap-8 p-6'>
@@ -49,10 +49,9 @@ const Learning = () => {
                     <div className="text-4xl px-4 tracking-wide font-dmSerif">Courses - Explore Your Potential</div>
 
                     <div className="grid grid-cols-4 gap-4 px-4">
-                        {courses.filter(course =>
-                            userData?.courseEnrolled?.some(enrolledCourse => enrolledCourse.courseId === course._id)).map((course, index) => (
-                                <Course key={index} course={course} />
-                            ))}
+                        {enrolledCourses.length > 0 ? enrolledCourses.map((course, index) => (
+                            <Course key={index} course={course} />
+                        )) : <div className="text-2xl text-center my-10">No Courses Enrolled</div>}
                     </div>
                 </div>
             </div>

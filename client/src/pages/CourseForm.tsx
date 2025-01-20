@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useUser } from '../context/UserContext.tsx';
 import { useNavigate } from 'react-router-dom';
@@ -141,7 +141,8 @@ const CourseForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!userData) {
       toast.error('User not found')
       return
@@ -157,6 +158,7 @@ const CourseForm: React.FC = () => {
         sections
       })
       toast.success('Course created successfully, Waiting for Admin Approval')
+      navigate('/courses')
     } catch (err) {
       console.log((err as Error).message)
       toast.error('Error creating course, Try again Later')
@@ -172,7 +174,7 @@ const CourseForm: React.FC = () => {
       </div>
       <div className='w-1/2 py-10 px-20'>
 
-        <form onSubmit={handleSubmit} className='flex flex-col w-full gap-6 my-10 justify-center font-manrope'>
+        <form onSubmit={(e)=>handleSubmit(e)} className='flex flex-col w-full gap-6 my-10 justify-center font-manrope'>
           <div className='text-5xl font-semibold text-center uppercase font-mono'>Course Form</div>
           <div className="relative">
             <input

@@ -5,9 +5,6 @@ interface ICourse extends Document {
     duration: String;
     author: String;
     email: String;
-    like?: Number;
-    dislike?: Number;
-    comment?: string[];
     enrolledStudents?: string[];
     content?: Section[];
     thumbnail: String;
@@ -53,17 +50,6 @@ const courseSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true
-    },
-    like: {
-        type: Number,
-        default: 0
-    },
-    dislike: {
-        type: Number,
-        default: 0
-    },
-    comment: {
-        type: [String],
     },
     enrolledStudents: {
         type: [enrolledStudentSchema],

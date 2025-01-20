@@ -44,7 +44,7 @@ const Courses: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-[calc(100vh-4rem)] flex flex-col gap-8 p-6">
+      <div className="min-h-[calc(100vh-4rem)] flex flex-col gap-8 p-6 bg-[#F9FAFB]">
         <div className="w-full bg-gradient-to-r from-blue-900 to-blue-500 text-white h-[50vh] rounded-lg p-8 flex justify-center">
           <div className="flex flex-col gap-5 w-2/3 px-4 py-10 font-manrope">
             <div className="text-4xl font-bold">Unlock Your Potential, Learn without Limits</div>
@@ -58,7 +58,7 @@ const Courses: React.FC = () => {
         <div className="flex flex-col gap- font-manrope">
           <div className="text-4xl px-4 tracking-wide font-dmSerif">Courses - Explore Your Potential</div>
 
-          <div className="grid grid-cols-4 gap-4 px-4">
+          <div className="grid grid-cols-4 gap-4 my-4 px-4">
             {courses.filter(course => course.adminApproved).map((course, index) => (
               <Course key={index} course={course} />
             ))}
