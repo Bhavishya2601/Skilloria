@@ -56,17 +56,17 @@ const Login: React.FC = () => {
 
   return (
     <div className='min-h-[calc(100vh-5rem)] flex gap-10'>
-      <div className='w-1/2 flex justify-end items-center'>
+      <div className='hidden w-1/2 mdd:flex justify-end items-center'>
         <img src={p1} alt="login" />
       </div>
-      <div className='w-1/2 flex flex-col gap-8 justify-center items-center font-manrope'>
-        <div className='text-4xl font-bold text-center'>
+      <div className='w-full mdd:w-1/2 flex flex-col gap-8 justify-center items-center font-manrope'>
+        <div className='text-3xl sm:text-4xl font-bold text-center'>
           <div>Log in to continue your</div>
           <div>learning journey</div>
         </div>
         <div className='flex flex-col gap-4 w-full justify-center items-center'>
 
-          <form onSubmit={handleLogin} className='flex flex-col gap-4 w-3/5'>
+          <form onSubmit={handleLogin} className='flex flex-col gap-4 w-4/5 sm:w-1/2 mdd:w-4/5 lg:w-3/5'>
             <div className="relative">
               <input
                 type="email"
@@ -111,7 +111,7 @@ const Login: React.FC = () => {
         </div>
 
         <div className='text-lg font-semibold'>OR</div>
-        <div className='w-3/5 flex justify-center gap-3 p-[10px] items-center border-2 shadow-md cursor-pointer hover:bg-[#fcfbfb] transition-all duration-100' onClick={handleGoogleLogin}>
+        <div className=' w-4/5 sm:w-1/2 mdd:w-4/5 lg:w-3/5 flex justify-center gap-3 p-[10px] items-center border-2 shadow-md cursor-pointer hover:bg-[#fcfbfb] transition-all duration-100' onClick={handleGoogleLogin}>
           <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" />
           <div className='font-semibold text-xl'>Continue with Google</div>
         </div>

@@ -6,7 +6,8 @@ const Header = () => {
   const { userData } = useUser()
 
   return (
-    <div className="h-20 flex justify-between px-40 items-center shadow-xl">
+    <div className="h-20 flex justify-between px-20 mdd:px-40 items-center shadow-xl"> 
+    {/* change to hamburger at md */}
       <Link to={'/'} className='flex gap-1 font-dmSerif items-center'>
         <img src="/logo.png" alt="Skilloria" className='h-10' />
         <div className='text-3xl font-semibold tracking-wide'>Skilloria</div>
@@ -17,7 +18,7 @@ const Header = () => {
           <div className='flex gap-8 items-center'>
             <Link to={'/courses'} className='hover:text-purple-600 transition-all duration-300'>Courses</Link>
             <Link to={'/learning'} className='hover:text-purple-600 transition-all duration-300'>My Learning</Link>
-            <Link to={'/profile'} className='hover:text-purple-600 transition-all duration-300'>
+            <Link to={`/profile/${userData?._id}`} className='hover:text-purple-600 transition-all duration-300'>
               <img src={p} alt="user" className='h-8'/>
             </Link>
           </div>

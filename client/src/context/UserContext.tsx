@@ -7,7 +7,7 @@ interface courseDetails {
 }
 
 interface User {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     courseEnrolled?: courseDetails[];

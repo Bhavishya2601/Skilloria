@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         >
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         </div>
-        <div className="relative z-10 flex pl-64 w-full items-center h-full">
+        <div className="relative z-10 flex pl-7 sm:pl-20 xl:pl-64 w-full items-center h-full">
           <motion.h1
             className=" flex flex-col gap-5 h-full text-white z-10 justify-center items-center"
             initial={{ y: 50, opacity: 0 }}
@@ -52,16 +52,19 @@ const Home: React.FC = () => {
             key={currentIndex}
           >
             <div className="uppercase text-xl w-full">awesome school facilities</div>
-            <div className="text-6xl font-bold text-white">
-              Join the Biggest Community of <br /> Skilloria
+            <div className="w-full">
+
+            <div className="flex flex-col text-2xl xs:text-4xl md:text-6xl font-bold text-white  w-4/5">
+              Join the Biggest Community of Skilloria
+            </div>
             </div>
             <Link to="/login" className="bg-gradient-to-r from-[#4169E1] to-[#8A2BE2] hover:bg-gradient-to-br font-bold text-white tracking-wide uppercase py-2 px-4 rounded-full self-start text-lg">Get Started</Link>
           </motion.h1>
         </div>
       </div>
-      <div className="m-28 p-8 py-16 flex justify-between gap-10 rounded-lg"
+      <div className="my-10 md:my-28 mx-8 lg:m-28 p-8 py-16 flex flex-col mdd:flex-row justify-between gap-10 rounded-lg"
         style={{
-          boxShadow: "0 0 20px 3px #6C6DFF",
+          boxShadow: "0 0 20px 3px #b1b2ff",
         }}
       >
         <div className="flex flex-col gap-3 justify-center items-center text-center">
@@ -98,9 +101,9 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="mx-28 my-10 flex justify-between gap-10 items-center">
-        <div className="flex flex-col gap-5 w-1/2 font-manrope">
-          <div className="font-bold text-5xl ">Skills these you really need for learning</div>
+      <div className="mx-10 lg:mx-28 my-10 flex flex-col mdd:flex-row justify-between gap-10 items-center">
+        <div className="flex flex-col gap-5 w-full mdd:w-1/2 font-manrope">
+          <div className="font-bold text-3xl lg:text-5xl ">Skills these you really need for learning</div>
           <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab maxime architecto voluptatum asperiore</div>
           <div className="flex flex-col ml-3 gap-2">
             <div className="flex gap-3 items-center">

@@ -169,10 +169,10 @@ const CourseForm: React.FC = () => {
 
   return (
     <div className='flex justify-around min-h-screen'>
-      <div className='h-[calc(100vh-4rem)] w-1/2 flex items-center justify-center'>
+      <div className='hidden h-[calc(100vh-4rem)] w-[40vw] lg:w-1/2 mdd:flex items-center justify-center'>
         <img src={p2} alt="" className='max-w-full max-h-full' />
       </div>
-      <div className='w-1/2 py-10 px-20'>
+      <div className='w-full mdd:w-[60vw] lg:w-1/2 py-10 px-5 xs:px-20'>
 
         <form onSubmit={(e)=>handleSubmit(e)} className='flex flex-col w-full gap-6 my-10 justify-center font-manrope'>
           <div className='text-5xl font-semibold text-center uppercase font-mono'>Course Form</div>
@@ -265,7 +265,7 @@ const CourseForm: React.FC = () => {
                 <div className="relative">
                   <input
                     type="text"
-                    className="peer w-3/4 p-2 pt-6 pb-2 border-2 border-gray-300 bg-transparent rounded-md outline-none focus:border-purple-500 transition-all"
+                    className="peer w-full lg:w-3/4 p-2 pt-6 pb-2 border-2 border-gray-300 bg-transparent rounded-md outline-none focus:border-purple-500 transition-all"
                     placeholder=" "
                     name='Section Name'
                     value={section.name}

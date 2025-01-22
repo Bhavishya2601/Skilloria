@@ -101,12 +101,12 @@ const Signup: React.FC = () => {
 
   return (
     <div className='min-h-[calc(100vh-5rem)] flex gap-10'>
-      <div className='w-1/2 flex justify-end items-center'>
+      <div className='hidden w-1/2 mdd:flex justify-end items-center'>
         <img src={p1} alt="login" />
       </div>
-      <div className='w-1/2 flex flex-col gap-8 justify-center items-center font-manrope'>
-        <div className='text-4xl font-bold'>Sign up and start learning</div>
-        <form onSubmit={handleSignup} className='flex flex-col gap-4 w-3/5'>
+      <div className='w-full mdd:w-1/2 flex flex-col gap-8 justify-center items-center font-manrope'>
+        <div className='text-3xl sm:text-4xl font-bold'>Sign up and start learning</div>
+        <form onSubmit={handleSignup} className='flex flex-col gap-4 w-4/5 sm:w-1/2 mdd:w-4/5 lg:w-3/5'>
           <div className="relative">
             <input
               type="text"

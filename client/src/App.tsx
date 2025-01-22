@@ -36,7 +36,7 @@ function App() {
             <Route path={'/courseform'} element={<CourseForm />} />
             <Route path={'/courses/:id'} element={<CoursePage />} />
             <Route path={'/learning'} element={<Learning />} />
-            <Route path={'/profile'} element={<Profile />} />
+            <Route path={'/profile/:id'} element={<Profile />} />
             <Route path={'*'} element={<Error />} />
           </Routes>
         </Suspense>
