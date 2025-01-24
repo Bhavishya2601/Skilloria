@@ -13,7 +13,6 @@ const Verification: React.FC = () => {
     const verifyEmail = async () => {
       try {
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verifiedUser`, token)
-        console.log(response.data)
         if (response.status === 200){
           setVerified(true)
         }

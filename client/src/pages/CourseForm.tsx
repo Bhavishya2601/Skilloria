@@ -93,7 +93,7 @@ const CourseForm: React.FC = () => {
       const response = await axios.post(`${cloudinaryUrl}?resource_type=${resourceType}`, formData)
       return response.data.secure_url;
     } catch (error) {
-      console.error('Cloudinary Upload Error:', error);
+      console.error('Upload Error:', error);
       return null;
     }
   };
@@ -157,7 +157,8 @@ const CourseForm: React.FC = () => {
         thumbnail: courseDetails.thumbnail,
         sections
       })
-      toast.success('Course created successfully, Waiting for Admin Approval')
+      toast.success('Course created successfully')
+      toast("Your Course will be live after Admin's Approval")
       navigate('/courses')
     } catch (err) {
       console.log((err as Error).message)
@@ -203,14 +204,14 @@ const CourseForm: React.FC = () => {
             />
             <label
               className="absolute left-3 top-2 text-gray-500 text-sm peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-lg peer-focus:top-2 peer-focus:text-sm peer-focus:text-purple-500 transition-all">
-              Course Duration
+              Course Duration (in hours)
             </label>
           </div>
           <div className='flex flex-col gap-1'>
             <div className='font-semibold uppercase'>
               Upload Thumbnail
             </div>
-            <div className={`w-full border-2 border-dotted ${courseDetails.thumbnail ? "border-purple-500" : "border-gray-500"} h-48 rounded-lg flex cursor-pointer flex-col justify-center items-center`} onClick={() => document.getElementById('thumbnail')?.click()}>
+            <div className={`w-full border-2 border-dotted ${courseDetails.thumbnail ? "border-purple-500" : "border-gray-500"} h-60 rounded-lg flex cursor-pointer flex-col justify-center items-center`} onClick={() => document.getElementById('thumbnail')?.click()}>
               {
                 courseDetails.thumbnail ?
                   <div className='w-full h-full'>

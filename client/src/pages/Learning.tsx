@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import d1 from '../assets/d1.jpg'
 import Course from '../components/Course'
 import { useUser } from '../context/UserContext'
@@ -16,8 +16,17 @@ interface Course {
 }
 
 const Learning = () => {
-    const { userData } = useUser()
+    const navigate = useNavigate()
+    const { userData, isLoading } = useUser()
     const [enrolledCourses, setEnrolledCourses] = useState<Course[]>([])
+
+    useEffect(() => {
+        if (!userData && !isLoading) {
+          navigate('/');
+        } else if (userData && Object.entries(userData).length === 0 && !isLoading) {
+          navigate('/');
+        }
+      }, [userData, isLoading, navigate]);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -31,7 +40,6 @@ const Learning = () => {
         fetchCourses()
     }, [])
 
-    console.log('hello', enrolledCourses)
     return (
         <>
             <div className='min-h-[calc(100vh-4rem)] flex flex-col gap-8 p-4 xs:p-6 bg-[#F9FAFB]'>

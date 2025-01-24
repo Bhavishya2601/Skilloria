@@ -18,7 +18,7 @@ interface CourseProps {
 
 const Course: React.FC<CourseProps> = ({ course }) => {
   const navigate = useNavigate()
-  const { userData } = useUser()
+  const { userData, setReTrigger } = useUser()
   const [popupOpen, setPopupOpen] = useState(false)
   const [courseId, setCourseId] = useState('')
   const [enrolling, setEnrolling] = useState(false)
@@ -42,6 +42,7 @@ const Course: React.FC<CourseProps> = ({ course }) => {
         courseName: course.name
       })
       toast.success('Enrolled Successfully')
+      setReTrigger(prev => prev + 1)
       navigate(`/courses/${courseId}`)
     } catch (err) {
       console.log((err as Error).message)
@@ -59,8 +60,8 @@ const Course: React.FC<CourseProps> = ({ course }) => {
       <div className="flex flex-col px-2 gap-1">
         <div className="text-lg leading-5 font-semibold">{course.name}</div>
         <div className="flex flex-col">
-        <div className="text-sm text-gray-600">By {course.author}</div>
-        <div className="text-sm text-gray-600">Duration : {course.duration}</div>
+        <div className="text-sm text-gray-600">By <span className="font-medium">{course.author}</span></div>
+        <div className="text-sm text-gray-600">Duration : {course.duration} hours</div>
         </div>
         {
           isEnrolled ? 
@@ -78,8 +79,8 @@ const Course: React.FC<CourseProps> = ({ course }) => {
               <div className="bg-white p-4 rounded-lg xs:h-40 mx-10 xs:w-[60vw] lg:w-[30vw] flex flex-col gap-4">
                 <div className="text-2xl font-semibold">Are you sure you want to enroll in this course?</div>
                 <div className="flex gap-4">
-                  <div className="bg-purple-600 px-4 py-2 text-white font-semibold w-1/2 text-center uppercase hover:bg-transparent hover:text-purple-500 border-2 border-purple-500 text-xl transition-all duration-500 cursor-pointer" onClick={ConfirmEnroll}>Yes</div>
-                  <div className="bg-transparent px-4 py-2 border-2 text-purple-500 border-purple-600 text-xl hover:bg-purple-600 hover:text-white font-semibold w-1/2 text-center transition-all duration-500 cursor-pointer" onClick={() => {
+                  <div className="bg-purple-600 px-4 py-2 text-white font-semibold w-1/2 text-center uppercase hover:bg-purple-500 border-2 border-purple-500 text-xl transition-all duration-500 cursor-pointer" onClick={ConfirmEnroll}>Yes</div>
+                  <div className="bg-transparent px-4 py-2 border-2 text-purple-500 border-purple-600 text-xl hover:bg-gray-100 font-semibold w-1/2 text-center transition-all duration-500 cursor-pointer" onClick={() => {
                     setPopupOpen(false)
                     setCourseId('')
                   }}>No</div>

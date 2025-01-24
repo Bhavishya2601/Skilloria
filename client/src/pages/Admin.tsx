@@ -32,10 +32,19 @@ interface Course {
 }
 
 const Admin: React.FC = () => {
-  const { userData, isLoading } = useUser()
+  const { userData } = useUser()
   const navigate = useNavigate()
   const [allUsers, setAllUsers] = useState([])
   const [allCourses, setAllCourses] = useState<Course[]>([])
+
+  useEffect(() => {
+    if (!userData?.isAdmin) {
+      navigate('/')
+    } else {
+      fetchAllUsers()
+      fetchAllCourses()
+    }
+  }, [])
 
   const fetchAllUsers = async () => {
     try {
@@ -68,15 +77,6 @@ const Admin: React.FC = () => {
     }
   }
 
-  // check if user is admin or not
-  useEffect(() => {
-    if (!isLoading && !userData?.isAdmin) {
-      navigate('/')
-    } else {
-      fetchAllUsers()
-      fetchAllCourses()
-    }
-  }, [])
 
   return (
     <div className='p-8 flex flex-col gap-10'>
@@ -100,7 +100,7 @@ const Admin: React.FC = () => {
                 <td className='border-2 py-2 px-3'>{course.author}</td>
                 <td className='border-2 py-2 px-3'>{course.email}</td>
                 <td className='border-2 py-2 px-3'><img src={course.thumbnail} alt="Thumbnail" className='h-[100px] w-[250px]' /></td>
-                <td className='border-2 py-2 px-3'><Link to={`/courses/${course._id}`}>View Course</Link></td>
+                <td className='border-2 py-2 px-3'><Link to={`/courses/${course._id}`} className='bg-purple-600 text-white p-2 rounded-lg'>View Course</Link></td>
                 <td className='border-2 py-2 px-3'>
                   <div className='bg-green-600 text-white py-2 px-4 rounded-lg cursor-pointer' onClick={() => handleAcceptCourse(course._id, course.name, course.author, course.email)}>Accept</div>
                 </td>

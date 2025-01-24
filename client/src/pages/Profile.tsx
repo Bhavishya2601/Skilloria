@@ -16,9 +16,17 @@ interface Course {
 
 const Profile = () => {
     const navigate = useNavigate()
-    const { userData, setReTrigger } = useUser()
+    const { userData, setReTrigger, isLoading } = useUser()
     const [enrolledCourses, setEnrolledCourses] = useState<Course[]>([])
     const [courseCreated, setCourseCreated] = useState<Course[]>([])
+
+    useEffect(() => {
+        if (!userData && !isLoading) {
+          navigate('/');
+        } else if (userData && Object.entries(userData).length === 0 && !isLoading) {
+          navigate('/');
+        }
+      }, [userData, isLoading, navigate]);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -48,6 +56,7 @@ const handleLogout = async () => {
     return (
         <>
             <div className='min-h-[calc(100vh-4rem)] flex flex-col gap-4 p-6'>
+                <div className='font-manrope text-xl font-semibold bg-red-500 text-white self-start rounded-lg px-4 py-1 cursor-pointer mx-4' onClick={handleLogout}>Logout</div>
                 <div className='flex gap-3 text-xl px-4 tracking-wide font-dmSerif'>
                     <div className='underline'>Name:</div>
                     <div className='font-manrope'>{userData?.name}</div>
@@ -56,7 +65,6 @@ const handleLogout = async () => {
                     <div className='underline'>Email:</div>
                     <div className='font-manrope'>{userData?.email}</div>
                 </div>
-                <div className='font-manrope text-xl font-semibold bg-red-500 text-white self-start rounded-lg px-4 py-1 cursor-pointer mx-4' onClick={handleLogout}>Logout</div>
                 <div className="flex flex-col gap-4 font-manrope">
                     <div className="text-2xl px-4 tracking-wide font-dmSerif underline">Enrolled Courses</div>
                     <div className="grid grid-cols-4 gap-4 px-4">
