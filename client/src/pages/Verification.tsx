@@ -26,7 +26,7 @@ const Verification: React.FC = () => {
   return (
     <>
     {
-      !verified ? 
+      verified ? 
       <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
         <div>
           <img src={verificationSuccesful} alt="Verified Successfully" />

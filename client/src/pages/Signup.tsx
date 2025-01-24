@@ -61,13 +61,13 @@ const Signup: React.FC = () => {
 
   const handleSignup = handleSubmit(async ({ name, email, password }) => {
     setLoading(true)
-    const loadingToastId = toast.loading('Signing Up...');
+    const loadingToastId = toast.loading('Sending Verification mail...');
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, {
         name, email, password
       });
       if (response.status === 200) {
-        toast.success('Verification email sent successfully', { id: loadingToastId });
+        toast.success('Verification mail sent successfully', { id: loadingToastId });
 
         verificationToastId = toast.loading('Verifing...\nDon\'t refresh or close this Window');
         try {
